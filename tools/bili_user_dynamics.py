@@ -123,17 +123,22 @@ class BiliUserDynamicsTool(FunctionTool):
             SubscriptionRecord(uid=int(uid)),
         )
 
+        items_by_dyn_id = {
+            str(item["id_str"]): item
+            for item in dynamics.get("items", [])
+            if isinstance(item, dict) and item.get("id_str") is not None
+        }
+
         payload_blocks: list[str] = []
-        for result, item in zip(
-            parsed_results, dynamics.get("items", []), strict=False
-        ):
+        for result in parsed_results:
             if not result.has_payload():
                 continue
+            item = items_by_dyn_id.get(str(result.dyn_id)) if result.dyn_id else None
             payload_blocks.append(
                 _format_dynamic_block(
                     len(payload_blocks) + 1,
                     result.payload,
-                    _extract_pub_time(item),
+                    _extract_pub_time(item or {}),
                 )
             )
             if len(payload_blocks) >= normalized_limit:
