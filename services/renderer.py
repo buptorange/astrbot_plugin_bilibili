@@ -9,7 +9,6 @@ from ..core.constant import (
     BANNER_PATH,
     CARD_TEMPLATES,
     DEFAULT_TEMPLATE,
-    LOGO_PATH,
     MAX_ATTEMPTS,
     RETRY_DELAY,
     get_template_path,
@@ -69,6 +68,7 @@ class Renderer:
         # options = {"full_page": True, "type": "png", "quality": None, "scale": "device"}
         options = {
             "full_page": True,
+            "viewport_height": 1,
             "type": "jpeg",
             "quality": 95,
             "scale": "device",
@@ -161,8 +161,6 @@ class Renderer:
         payload.text = parse_rich_text(summary, topic)
         payload.title = str(opus.get("title") or "")
         payload.image_urls = [str(pic["url"]) for pic in opus.get("pics", [])[:9]]
-        if not payload.image_urls and self.rai:
-            payload.image_urls = [image_to_base64(LOGO_PATH)]
         if not is_forward:
             payload.url = f"https:{jump_url}"
             payload.qrcode = create_qrcode(payload.url)

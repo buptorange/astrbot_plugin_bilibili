@@ -34,6 +34,10 @@
         overflow: hidden;
     }
 
+    .dynamic-card.compact {
+        min-height: 0;
+    }
+
     .header-left {
         display: flex;
         align-items: center;
@@ -380,7 +384,7 @@
 </head>
 <body>
 
-<div class="dynamic-card">
+<div class="dynamic-card{% if not image_urls and not (forward and forward.image_urls) %} compact{% endif %}">
     <div class="card-header">
         
         <div class="header-left">
