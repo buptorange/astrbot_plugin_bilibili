@@ -20,6 +20,7 @@ VALID_FILTER_TYPES = {
     "article",
     "draw",
     "live",
+    "live_end",
     "forward_lottery",
 }
 LIVE_ATALL_OPTION = "live_atall"

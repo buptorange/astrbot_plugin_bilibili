@@ -1002,6 +1002,8 @@ class DynamicListener:
                 text = f"📣 你订阅的UP 「{user_name}」 下播了！"
             sub_data.last_live_start_ts = 0
             await self.data_manager.update_live_status(sub_user, sub_data.uid, False)
+            if "live_end" in sub_data.filter_types:
+                return
         if text:
             payload = self._build_live_payload(live_room, text)
             with_atall = await self._check_atall_permission(

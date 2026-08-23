@@ -64,7 +64,8 @@ plugin i https://github.com/Soulter/astrbot_plugin_bilibili
   - `video`：过滤掉视频发布动态。
   - `article`：过滤掉专栏动态。
   - `draw`：过滤掉图文动态。
-  - `live`：过滤掉直播动态。
+  - `live`：过滤掉开播和下播提醒。
+  - `live_end`：仅过滤掉下播提醒，保留开播提醒。
   - `forward_lottery`：过滤掉转发的互动抽奖动态。
   - **正则表达式**：任何不属于上述保留关键字的字符串都将被视为正则表达式，用于过滤动态文本内容。
 
