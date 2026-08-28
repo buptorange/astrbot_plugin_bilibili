@@ -1,3 +1,8 @@
+# v1.6.5
+- 支持过滤直播下播通知
+- 去除渲染占位
+- 修复函数工具异常
+
 ## v1.6.3 & v1.6.4
 - 修复文字模式下up主信息指代不清，pr by[dizzykitty3](https://github.com/dizzykitty3)
 - 支持动态推送时 @全体成员 及 @特定订阅者，pr by [WinBSOD](https://github.com/WinBSOD)
