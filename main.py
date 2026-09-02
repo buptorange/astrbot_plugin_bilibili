@@ -423,31 +423,22 @@ class Main(Star):
                     MessageChain().message("获取视频信息失败了 (´;ω;`)")
                 )
             info = video_data["info"]
-            online = video_data["online"]
+            owner = info.get("owner") or {}
+            stat = info.get("stat") or {}
+            title = str(info.get("title") or "")
+            up_name = str(owner.get("name") or "未知UP主")
+            view_count = stat.get("view", 0)
+            cover = str(info.get("pic") or "")
+            link = f"https://www.bilibili.com/video/{bvid}"
 
-            payload = RenderPayload(
-                name="AstrBot",
-                avatar=image_to_base64(LOGO_PATH),
-                title=info["title"],
-                text=(
-                    f"UP 主: {info['owner']['name']}<br>"
-                    f"播放量: {info['stat']['view']}<br>"
-                    f"点赞: {info['stat']['like']}<br>"
-                    f"投币: {info['stat']['coin']}<br>"
-                    f"总共 {online['total']} 人正在观看"
-                ),
-                image_urls=[info["pic"]],
+            # BV 解析固定使用图文消息，不再调用 HTML 图片渲染器。
+            chain = MessageChain()
+            if cover:
+                chain = chain.url_image(cover)
+            chain = chain.message(
+                f"{title}\nUP：{up_name} | 播放：{view_count}\n{link}"
             )
-
-            img_path = await self.renderer.render_dynamic(payload)
-            if img_path:
-                await event.send(MessageChain().file_image(img_path))
-            else:
-                msg = "渲染图片失败了 (´;ω;`)"
-                text = "\n".join(filter(None, payload.text.split("<br>")))
-                await event.send(
-                    MessageChain().message(msg).message(text).url_image(info["pic"])
-                )
+            await event.send(chain)
 
     @command("bili_sub", alias={"订阅动态"})
     async def dynamic_sub(self, event: AstrMessageEvent, uid: str, input: GreedyStr):
